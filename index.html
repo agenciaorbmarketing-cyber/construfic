@@ -1,293 +1,332 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <!-- =======================================================
-  LANDING PAGE – CONSTRUFIC (AVARÉ)
-  Arquivo único: index.html
-  Apenas coloque as imagens dentro da pasta /assets
-  -----------------------------------------------------------
-  PASSO A PASSO:
-  1) Crie uma pasta chamada "assets"
-  2) Coloque dentro dela:
-     - logo.jpg   (500x200px ou 1000x400px)
-     - frente.jpg (1600x900px)
-  3) Suba tudo no GitHub Pages
-  4) Pronto: sua landing page estará no ar
-  ======================================================= -->
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <!-- Index único: pronto para GitHub Pages
+       Assuma assets/logo.jpg (500x200) e assets/frente.jpg (1600x900)
+       Versão: 2026-03-02 (cache-busting via ?v=20260302) -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Construfic – Materiais para Construção em Avaré</title>
-  <meta name="description" content="Construfic em Avaré. Pesquise o que você precisa para sua obra e fale direto com nosso atendimento via WhatsApp.">
+  <meta name="description" content="Construfic em Avaré. Pesquise materiais para construção e fale direto conosco via WhatsApp.">
 
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Canonical / Open Graph / Twitter Card (substitua SEU-DOMINIO) -->
+  <link rel="canonical" href="https://SEU-DOMINIO/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Construfic – Materiais para Construção em Avaré">
+  <meta property="og:description" content="Pesquise materiais para construção e fale direto conosco via WhatsApp.">
+  <meta property="og:image" content="https://SEU-DOMINIO/assets/frente.jpg?v=20260302">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Construfic – Materiais para Construção em Avaré">
+  <meta name="twitter:description" content="Pesquise materiais para construção e fale direto conosco via WhatsApp.">
+
+  <!-- JSON-LD LocalBusiness (substitua os placeholders: url, image, telephone) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HardwareStore",
+    "name": "Construfic",
+    "image": "https://SEU-DOMINIO/assets/logo.jpg?v=20260302",
+    "url": "https://SEU-DOMINIO/",
+    "telephone": "+55-14-99701-7434",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rua Goiás, 1441",
+      "addressLocality": "Avaré",
+      "addressRegion": "SP",
+      "addressCountry": "BR"
+    },
+    "priceRange": "$$"
+  }
+  </script>
+
+  <!-- Preload presumível LCP (hero). Ajuste o href para a variante real se gerar imagens responsivas -->
+  <link rel="preload" as="image" href="assets/frente.jpg?v=20260302">
 
   <style>
-    :root {
-      --green-dark: #064d36;
-      --green-mid:  #1b7a4b;
-      --green-light:#6fd86b;
-      --bg: #f7f9f6;
-      --accent: #ffffff;
-      --muted: #6b6b6b;
+    /* Mobile-first critical CSS (system fonts to avoid render-blocking) */
+    :root{
+      --green-dark:#064d36;
+      --green-mid:#1b7a4b;
+      --bg:#f7f9f6;
+      --muted:#6b6b6b;
+      --radius:12px;
+      --max-width:1100px;
+      --gap:16px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
+    /* System font stack (avoid external font blocking) */
+    html,body{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--green-dark);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      -webkit-text-size-adjust:100%;
+      line-height:1.4;
     }
 
-    body {
-      background: var(--bg);
-      color: var(--green-dark);
-      line-height: 1.5;
+    /* Accessibility helpers */
+    .skip-link{
+      position:absolute;
+      left:0;
+      top:0;
+      transform:translateY(-120%);
+      background:#000;
+      color:#fff;
+      padding:8px 12px;
+      z-index:9999;
+      border-radius:0 0 6px 0;
+      text-decoration:none;
+      font-size:14px;
+    }
+    .skip-link:focus{ transform:translateY(0); }
+
+    .sr-only{
+      position:absolute!important;
+      height:1px; width:1px;
+      overflow:hidden;
+      clip:rect(1px,1px,1px,1px);
+      white-space:nowrap;
     }
 
-    header {
-      background: #fff;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    header{
+      background:#fff;
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      box-shadow:0 2px 6px rgba(0,0,0,.05);
+      position:sticky;
+      top:0;
+      z-index:40;
+    }
+    header img{ height:46px; width:auto; display:block; }
+
+    .cta-header{
+      background:var(--green-mid);
+      color:#fff;
+      padding:8px 14px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+    }
+    .cta-header:focus{ outline:3px solid #bfefd0; outline-offset:2px; }
+
+    main{ max-width:var(--max-width); margin:20px auto; padding:0 16px; }
+    .hero{ text-align:center; padding:28px 0 18px; }
+    .hero h1{ font-size:24px; margin-bottom:8px; line-height:1.1; }
+    .hero p{ color:var(--muted); margin-bottom:18px; font-size:15px; }
+
+    .search-box{
+      background:#fff;
+      padding:12px;
+      border-radius:16px;
+      box-shadow:0 8px 20px rgba(0,0,0,.06);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .search-box input{
+      flex:1 1 180px;
+      min-width:180px;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid #e6e6e6;
+      font-size:15px;
+    }
+    .search-box button{
+      background:var(--green-mid);
+      color:#fff;
+      border:none;
+      padding:10px 16px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .search-box button:focus{ outline:3px solid #bfefd0; outline-offset:2px; }
+
+    .facade{ margin:20px auto; border-radius:18px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.08); }
+    .facade img{ display:block; width:100%; height:auto; }
+
+    .info{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:16px;
+      margin:20px 0 48px;
+    }
+    .card{
+      background:#fff;
+      padding:16px;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
+    }
+    .card h3{ font-size:16px; margin-bottom:6px; display:flex; gap:8px; align-items:center; }
+    .card p{ color:var(--muted); font-size:14px; }
+
+    footer{
+      background:var(--green-dark);
+      color:#fff;
+      padding:20px 12px;
+      text-align:center;
+      font-size:14px;
     }
 
-    header img {
-      height: 46px;
+    .whatsapp-float{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      background:#25d366;
+      color:#fff;
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      text-decoration:none;
+      box-shadow:0 8px 22px rgba(0,0,0,.18);
+      z-index:999;
+    }
+    .whatsapp-float:focus{ outline:3px solid rgba(255,255,255,.9); }
+
+    /* Focus visible */
+    :focus{ outline-offset:3px; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none!important; animation:none!important; }
     }
 
-    .cta-header {
-      background: var(--green-mid);
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: .2s;
-    }
-
-    .cta-header:hover {
-      background: var(--green-dark);
-    }
-
-    .hero {
-      padding: 60px 24px 40px;
-      text-align: center;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .hero h1 {
-      font-size: 34px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      margin-bottom: 28px;
-      font-size: 17px;
-    }
-
-    .search-box {
-      background: #fff;
-      padding: 18px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,.08);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    .search-box input {
-      flex: 1;
-      min-width: 220px;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-    }
-
-    .search-box button {
-      background: var(--green-mid);
-      color: #fff;
-      border: none;
-      padding: 14px 22px;
-      border-radius: 12px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .search-box button:hover {
-      background: var(--green-dark);
-    }
-
-    .facade {
-      margin: 50px auto 30px;
-      max-width: 1100px;
-      padding: 0 24px;
-    }
-
-    .facade img {
-      width: 100%;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.1);
-    }
-
-    .info {
-      max-width: 1100px;
-      margin: 30px auto 80px;
-      padding: 0 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 22px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,.06);
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-      font-size: 18px;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    footer {
-      background: var(--green-dark);
-      color: #fff;
-      padding: 26px 20px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .whatsapp-float {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      background: #25d366;
-      color: #fff;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      text-decoration: none;
-      box-shadow: 0 6px 20px rgba(0,0,0,.25);
-      z-index: 999;
-      transition: .2s;
-    }
-
-    .whatsapp-float:hover {
-      transform: scale(1.05);
-    }
-
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 26px;
-      }
+    /* Larger screens */
+    @media (min-width:601px){
+      .hero h1{ font-size:32px; }
+      main{ padding:0 24px; }
     }
   </style>
 </head>
-
 <body>
+  <a class="skip-link" href="#main-content">Ir para o conteúdo</a>
 
-<header>
-  <img src="assets/logo.jpg" alt="Construfic">
-  <a href="#busca" class="cta-header">Pesquisar Produto</a>
-</header>
+  <header role="banner" aria-label="Cabeçalho do site">
+    <a href="/" aria-label="Página inicial">
+      <img src="assets/logo.jpg?v=20260302" alt="Construfic" width="500" height="200" loading="eager" decoding="async">
+    </a>
+    <a class="cta-header" href="#busca">Pesquisar Produto</a>
+  </header>
 
-<main>
+  <main id="main-content" role="main" aria-label="Conteúdo principal">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">Pesquise o que você precisa para sua obra</h1>
+      <p>Encontre materiais para construção, reforma, acabamento e decoração na Construfic em Avaré.</p>
 
-  <section class="hero">
-    <h1>Pesquise o que você precisa para sua obra</h1>
-    <p>Encontre materiais para construção, reforma, acabamento e decoração na Construfic em Avaré.</p>
+      <form id="search-form" class="search-box" role="search" aria-label="Pesquisar produtos">
+        <label for="produto" class="sr-only">Produto</label>
+        <input id="produto" name="produto" type="search" inputmode="search" placeholder="Digite o que você procura... Ex: piso, cimento, tinta" aria-label="Digite o produto que procura" required>
+        <button type="submit" aria-label="Pesquisar e enviar pelo WhatsApp">Pesquisar</button>
+      </form>
+    </section>
 
-    <div id="busca" class="search-box">
-      <input id="produto" type="text" placeholder="Digite o que você procura... Ex: piso, cimento, tinta">
-      <button onclick="enviarWhatsapp()">Pesquisar</button>
-    </div>
-  </section>
+    <section class="facade" aria-label="Fachada da loja">
+      <!-- picture + srcset + sizes (uses same file with query-params for responsive hints; substituir por variantes reais no build) -->
+      <picture>
+        <source srcset="assets/frente.jpg?v=20260302 1600w, assets/frente.jpg?v=20260302 800w, assets/frente.jpg?v=20260302 400w" sizes="(max-width:600px) 100vw, 1100px">
+        <img src="assets/frente.jpg?v=20260302" alt="Fachada da loja Construfic" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high">
+      </picture>
+    </section>
 
-  <section class="facade">
-    <img src="assets/frente.jpg" alt="Fachada da loja Construfic">
-  </section>
+    <section class="info" aria-label="Benefícios e localização">
+      <div class="card">
+        <h3><span aria-hidden="true">Tradição</span></h3>
+        <p>Há mais de 40 anos atendendo Avaré e região. Preços justos e atendimento de excelência.</p>
+      </div>
 
-  <section class="info">
-    <div class="card">
-      <h3>🏗 Tradição</h3>
-      <p>Há mais de 40 anos atendendo Avaré e região. Preços justos e atendimento de excelência.</p>
-    </div>
+      <div class="card">
+        <h3><span aria-hidden="true">Confiança</span></h3>
+        <p>Mais de 1.000 clientes atendidos, com alto índice de satisfação e recompra.</p>
+      </div>
 
-    <div class="card">
-      <h3>⭐ Confiança</h3>
-      <p>Mais de 1.000 clientes atendidos, com alto índice de satisfação e recompra.</p>
-    </div>
+      <div class="card">
+        <h3><span aria-hidden="true">Onde Estamos</span></h3>
+        <p>Rua Goiás, 1441 – Avaré/SP</p>
+      </div>
+    </section>
+  </main>
 
-    <div class="card">
-      <h3>📍 Onde Estamos</h3>
-      <p>Rua Goiás, 1441 – Avaré/SP</p>
-    </div>
-  </section>
+  <footer role="contentinfo">
+    <div>Construfic • Materiais para Construção • Avaré/SP</div>
+    <div>Atendimento via WhatsApp: <a href="tel:+5514997017434" style="color:inherit; text-decoration:underline;">(14) 99701-7434</a></div>
+  </footer>
 
-</main>
+  <!-- Floating WhatsApp (use JS to open secure target with rel) -->
+  <a id="whatsapp-float" class="whatsapp-float" href="#" role="button" aria-label="Abrir WhatsApp">
+    <span aria-hidden="true">💬</span>
+    <span class="sr-only">Abrir WhatsApp</span>
+  </a>
 
-<footer>
-  Construfic • Materiais para Construção • Avaré/SP  
-  <br>
-  Atendimento via WhatsApp
-</footer>
+  <script>
+    // Configurações
+    (function(){
+      const TELEFONE = '5514997017434'; // +55 14 99701-7434 (formato internacional sem +)
+      const CACHE_BUST = '?v=20260302';
 
-<a class="whatsapp-float" href="javascript:enviarWhatsapp()">
-  💬
-</a>
+      // Função segura para abrir novo target com rel="noopener noreferrer"
+      function openInNewTab(url){
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        // append not required for click to work in most browsers
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
 
-<script>
-  function enviarWhatsapp() {
-    const campo = document.getElementById('produto');
-    const texto = campo.value.trim();
+      // Monta a mensagem e abre WhatsApp
+      function enviarWhatsapp(text){
+        const produto = (text || '').trim();
+        if(!produto){
+          // fallback UX: foco e mensagem
+          const campo = document.getElementById('produto');
+          campo.focus();
+          alert('Digite o que você está procurando.');
+          return;
+        }
+        const mensagem = encodeURIComponent('Vim pela landing page da Construfic e estou buscando: ' + produto);
+        const url = `https://wa.me/${TELEFONE}?text=${mensagem}`;
+        openInNewTab(url);
+      }
 
-    if (!texto) {
-      alert('Digite o que você está procurando.');
-      campo.focus();
-      return;
-    }
+      // Form submit handler
+      const form = document.getElementById('search-form');
+      form.addEventListener('submit', function(evt){
+        evt.preventDefault();
+        const valor = document.getElementById('produto').value;
+        enviarWhatsapp(valor);
+      });
 
-    // WhatsApp oficial: +55 14 99701-7434
-    const telefone = '5514997017434';
+      // Floating WhatsApp click
+      document.getElementById('whatsapp-float').addEventListener('click', function(evt){
+        evt.preventDefault();
+        // Se quiser abrir conversa vazia, usar mensagem genérica
+        enviarWhatsapp(''); // pedirá preenchimento via alert; alternative: abrir conversa sem texto
+        // Alternativa sem texto (descomente):
+        // openInNewTab(`https://wa.me/${TELEFONE}`);
+      });
 
-    const mensagem = encodeURIComponent(
-      'Vim pela landing page da Construfic e estou buscando: ' + texto
-    );
+      // Keyboard accessibility: Enter on whatsapp (for keyboard users)
+      document.getElementById('whatsapp-float').addEventListener('keydown', function(evt){
+        if(evt.key === 'Enter' || evt.key === ' '){
+          evt.preventDefault();
+          this.click();
+        }
+      });
 
-    const url = `https://wa.me/${telefone}?text=${mensagem}`;
-    window.open(url, '_blank');
-  }
-</script>
-
-<!-- =======================================================
-RESUMO RÁPIDO:
-- index.html → esse arquivo
-- assets/logo.jpg → logo (500x200px)
-- assets/frente.jpg → fachada (1600x900px)
-- WhatsApp já configurado
-======================================================= -->
-
+      // Prevent layout shift: ensure images have width/height attributes (done in HTML)
+    })();
+  </script>
 </body>
 </html>
