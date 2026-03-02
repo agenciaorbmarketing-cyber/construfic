@@ -46,12 +46,14 @@
       --bg:#f7f9f6;
       --fg:#063f2a;
       --muted:#646868;
-      --accent1: linear-gradient(135deg,#1b7a4b 0%, #2bb673 100%);
+      --accent-start:#1b7a4b;
+      --accent-end:#2bb673;
       --card-bg:#ffffff;
       --radius:14px;
       --container-max:1100px;
       --gap:16px;
-      --btn-height:48px;
+      --btn-height-desktop:48px;
+      --btn-height-mobile:50px;
     }
 
     html,body{
@@ -116,9 +118,9 @@
       margin-bottom:18px;
     }
     .hero-inner{
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
       border-radius:var(--radius);
-      padding:20px;
+      padding:18px;
       box-shadow:0 8px 30px rgba(0,0,0,0.06);
     }
     .hero h1{ font-size:24px; margin:0 0 6px; letter-spacing:-0.2px; color:var(--fg); }
@@ -136,7 +138,7 @@
     .search-box input{
       flex:1 1 180px;
       min-width:160px;
-      height:44px;
+      height:48px;
       padding:12px 14px;
       border-radius:10px;
       border:1px solid #e6e6e6;
@@ -144,17 +146,18 @@
       box-shadow:inset 0 1px 0 rgba(0,0,0,0.02);
     }
     .search-box .btn{
-      height:var(--btn-height);
+      height:var(--btn-height-mobile);
       padding:0 16px;
       border-radius:999px;
       border:none;
       cursor:pointer;
       font-weight:700;
       font-size:15px;
-      background:var(--accent1);
+      background:linear-gradient(135deg,var(--accent-start) 0%, var(--accent-end) 100%);
       color:#fff;
       box-shadow:0 8px 18px rgba(27,122,75,0.18);
       transition:transform .12s ease, box-shadow .12s ease;
+      min-width:120px;
     }
     .search-box .btn:active{ transform:translateY(1px); }
     .search-box .btn:focus{ outline:3px solid rgba(43,182,115,0.18); outline-offset:3px; }
@@ -181,18 +184,6 @@
     }
     .card h3{ margin:0; font-size:16px; display:flex; align-items:center; gap:10px; }
     .card p{ margin:0; color:var(--muted); font-size:14px; }
-    .card .card-actions{ margin-top:8px; display:flex; gap:8px; }
-    .btn-secondary{
-      background:#fff;
-      color:var(--fg);
-      border:1px solid #e6e6e6;
-      padding:8px 12px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:600;
-      height:40px;
-    }
-    .btn-secondary:focus{ outline:3px solid rgba(6,63,42,0.12); outline-offset:2px; }
 
     /* Footer */
     footer{
@@ -202,10 +193,9 @@
       text-align:center;
       font-size:14px;
     }
-    footer a{ color:inherit; text-decoration:underline; }
 
-    /* Floating WhatsApp */
-    .whatsapp-float{
+    /* Floating action (now scroll-to-input) */
+    .action-float{
       position:fixed;
       right:18px;
       bottom:18px;
@@ -215,14 +205,16 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      background:#25d366;
+      background:linear-gradient(135deg,#25d366 0%, #1ebc5b 100%);
       color:#fff;
       font-size:22px;
       box-shadow:0 14px 30px rgba(0,0,0,0.18);
       text-decoration:none;
       z-index:999;
+      cursor:pointer;
+      border:none;
     }
-    .whatsapp-float:focus{ outline:3px solid rgba(255,255,255,0.9); outline-offset:3px; }
+    .action-float:focus{ outline:3px solid rgba(255,255,255,0.9); outline-offset:3px; }
 
     /* Larger layouts */
     @media (min-width:760px){
@@ -231,6 +223,8 @@
       .hero h1{ font-size:32px; }
       .info{ grid-template-columns:repeat(3,1fr); gap:18px; }
       .container{ padding:0 24px; }
+      .search-box input{ height:48px; min-width:220px; }
+      .search-box .btn{ height:var(--btn-height-desktop); min-width:140px; }
     }
 
     /* Focus and reduced-motion */
@@ -241,6 +235,14 @@
 
     /* Smooth scroll (enhanced by JS fallback) */
     html { scroll-behavior: smooth; }
+
+    /* Mobile spacing improvements for any buttons present */
+    .btn, .btn-secondary, .btn-tertiary { margin:6px 0; }
+    @media (max-width:420px){
+      .search-box{ gap:12px; }
+      .search-box .btn{ min-width:110px; padding:0 14px; font-size:15px; }
+      .search-box input{ height:50px; padding:12px; }
+    }
   </style>
 </head>
 <body>
@@ -268,10 +270,6 @@
           <input id="produto" name="produto" type="search" inputmode="search" placeholder="Ex.: piso, cimento, tinta" aria-label="Digite o produto que procura" autocomplete="off" required>
           <button type="submit" class="btn" aria-label="Pesquisar e enviar pelo WhatsApp">Pesquisar</button>
         </form>
-
-        <div style="margin-top:10px; font-size:13px; color:var(--muted);">
-          Prefere ver nossa loja? <a id="map-link" href="https://www.google.com/maps/dir/?api=1&destination=Rua+Goi%C3%A1s+1441+Avar%C3%A9+SP" target="_blank" rel="noopener noreferrer">Rua Goiás, 1441 – Avaré/SP</a>
-        </div>
       </div>
 
       <!-- Facade image (LCP) -->
@@ -288,48 +286,37 @@
       <div class="card">
         <h3>Tradição</h3>
         <p>Há mais de 40 anos atendendo Avaré e região. Preços justos e atendimento de excelência.</p>
-        <div class="card-actions">
-          <button class="btn-secondary scroll-to-input" type="button">Quero este</button>
-        </div>
       </div>
 
       <div class="card">
         <h3>Confiança</h3>
         <p>Mais de 1.000 clientes atendidos, com alto índice de satisfação e recompra.</p>
-        <div class="card-actions">
-          <button class="btn-secondary scroll-to-input" type="button">Solicitar</button>
-        </div>
       </div>
 
       <div class="card">
         <h3>Onde Estamos</h3>
         <p><a id="map-link-2" href="https://www.google.com/maps/dir/?api=1&destination=Rua+Goi%C3%A1s+1441+Avar%C3%A9+SP" target="_blank" rel="noopener noreferrer">Rua Goiás, 1441 – Avaré/SP</a></p>
-        <div class="card-actions">
-          <button class="btn-secondary scroll-to-input" type="button">Como chegar</button>
-        </div>
       </div>
     </section>
   </main>
 
   <footer role="contentinfo">
     <div style="margin-bottom:6px;">Construfic • Materiais para Construção • Avaré/SP</div>
-    <div>Atendimento via WhatsApp: <a href="tel:+5514997017434" style="color:inherit; text-decoration:underline;">(14) 99701-7434</a></div>
   </footer>
 
-  <!-- Floating WhatsApp (abre conversa sem texto) -->
-  <a id="whatsapp-float" class="whatsapp-float" href="#" role="button" aria-label="Abrir conversa no WhatsApp">
-    <span aria-hidden="true">💬</span>
-    <span class="sr-only">Abrir WhatsApp</span>
-  </a>
+  <!-- Floating action: agora rola para o campo de busca (não abre WhatsApp) -->
+  <button id="action-float" class="action-float" aria-label="Ir para campo de pesquisa">
+    <span aria-hidden="true">🔍</span>
+    <span class="sr-only">Ir para pesquisa</span>
+  </button>
 
   <script>
     (function () {
-      const TELEFONE = '5514997017434'; // +55 14 99701-7434
+      const TELEFONE = '5514997017434'; // retained for form action
       const input = document.getElementById('produto');
       const form = document.getElementById('search-form');
-      const scrollButtons = document.querySelectorAll('.scroll-to-input');
       const btnCta = document.getElementById('btn-cta');
-      const whatsappFloat = document.getElementById('whatsapp-float');
+      const actionFloat = document.getElementById('action-float');
 
       // Safety: open new tab with rel noopener noreferrer
       function openInNewTab(url){
@@ -337,7 +324,6 @@
         a.href = url;
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
-        // add to DOM to ensure click works across browsers
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -346,10 +332,8 @@
       // Smooth scroll + focus + highlight
       function focusAndHighlightField(){
         if(!input) return;
-        // smooth scroll with fallback
         input.scrollIntoView({ behavior: 'smooth', block: 'center' });
         input.focus({ preventScroll: true });
-        // subtle highlight
         const original = input.style.boxShadow;
         input.style.boxShadow = '0 0 0 4px rgba(43,182,115,0.14)';
         setTimeout(()=> input.style.boxShadow = original, 1200);
@@ -361,7 +345,6 @@
         const produto = input.value.trim();
         if(!produto){
           input.focus();
-          // accessible alert fallback
           alert('Digite o que você está procurando.');
           return;
         }
@@ -370,29 +353,18 @@
         openInNewTab(url);
       });
 
-      // All other action buttons scroll to input (and focus)
-      scrollButtons.forEach(btn => {
-        btn.addEventListener('click', function (e) {
-          e.preventDefault();
-          focusAndHighlightField();
-        });
-      });
-
       // Header CTA scrolls to input
       btnCta.addEventListener('click', function (e) {
         e.preventDefault();
         focusAndHighlightField();
       });
 
-      // Floating WhatsApp opens conversation (without text)
-      whatsappFloat.addEventListener('click', function (e) {
+      // Floating action scrolls to input (was opening WhatsApp previously)
+      actionFloat.addEventListener('click', function (e) {
         e.preventDefault();
-        const url = `https://wa.me/${TELEFONE}`;
-        openInNewTab(url);
+        focusAndHighlightField();
       });
-
-      // Keyboard support for whatsappFloat (Enter / Space)
-      whatsappFloat.addEventListener('keydown', function (e) {
+      actionFloat.addEventListener('keydown', function (e) {
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
           this.click();
@@ -406,7 +378,6 @@
         }
       });
 
-      // Prevent layout shift: images have width/height and loading attributes set in HTML
     })();
   </script>
 </body>
